@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootsraptable checkbox select</title>
+    <script src="./assert/jquery-3.3.1.min.js"></script>
+    <script src="./assert/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./assert/bootstrap-table/js/bootstrap-table.js"></script>
+    <link href="./assert/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assert/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+     <link href="./assert/bootstrap-table/css/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body>
+<div class="content">
+     <div class="form-group">
+         <table id="table" data-toggle="table">
+             <thead>
+                 <tr><th data-field="state" data-checkbox="true" data-formatter="stateFormatter"></th>
+                     <th data-field="id">ID</th>
+                     <th data-field="operator" data-formatter="operatorFormatter">Item Name</th>
+                     <th data-field="price">Item Price</th>
+                </tr>
+            </thead>
+         </table>
+     </div>
+      <div class="form-group">
+           <button id="btn_updatelibrary" class="btn btn-primary" type="submit">GetValue</button>
+        </div>
+</div>
+<script type="text/javascript">
+    $("#table").bootstrapTable({
+     pagination:true,
+         data:[
+    {   
+        "id": "1",
+        "operator": "Item 1",
+        "state": false,  //是否选中
+        "price":"18536552258"
+    },
+       {   
+        "id": "1",
+        "operator": "Item 1",
+        "state": false,  //是否选中
+        "price":"18536552258"
+    }
+    ,
+    {   
+        "id": "1",
+        "operator": "Item 1",
+        "state": false,  //是否选中
+        "price":"18536552258"
+    }
+   
+    ]
+    });
+    function stateFormatter(value, row, index) {
+    return value;
+    }
+
+    function operatorFormatter(value, row, index){
+       var strHtml = "";
+      if (value == "Item 1")
+      {
+        strHtml = "<select class='ss' onchange='select_changed(this)'><option value='Item 1' selected='selected'>Item 1</option><option value='Item 2'>Item 2</option></select>";
+       }
+       else
+       {
+        strHtml = "<select class='ss' onchange='select_changed(this)'><option value='Item 1' >Item 1</option><option value='Item 2' selected='selected'>Item 2</option></select>";
+       }
+       return strHtml;
+
+    }
+
+function select_changed(item){
+     var indexSelected = $(item).parent().parent()[0].rowIndex - 1;
+    var valueSelected = $(item).children('option:selected').val();
+     $('#table').bootstrapTable('updateCell', {
+      index: indexSelected,
+      field: 'operator',
+      value: valueSelected
+     })
+}
+
+ $("#btn_updatelibrary").on('click',function(){
+        var getSelectRows = $("#table").bootstrapTable('getSelections');
+        console.log(getSelectRows);
+    })
+</script>
+
+</body>
+</html>
